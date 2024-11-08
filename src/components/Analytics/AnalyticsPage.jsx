@@ -5,7 +5,7 @@ import AnalyticsChart from "./AnalyticsChart"; // Import the AnalyticsChart comp
 const AnalyticsPage = () => {
   return (
     <div className="analytics-page" style={{ padding: "30px"}}>
-      <h1 className={classes.h1} style={{ textAlign: "center", color: "var(--purple)", marginBottom: "-15px" }}>
+      <h1 className={classes.h1} style={{ textAlign: "center", color: "gray", marginBottom: "-15px" }}>
         Total Connections Analytics
       </h1>
       <AnalyticsChart />
