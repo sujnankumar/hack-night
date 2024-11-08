@@ -5,6 +5,7 @@ import {
   ChartColumnIncreasing,
   Telescope,
   Bell,
+  CalendarDays,
   Users,
   Building2,
   LifeBuoy,
@@ -22,6 +23,11 @@ const AsideNav = () => {
             icon={<Telescope size={20} />}
             text="Explore"
             location="/explore"
+          />
+          <SidebarItem
+            icon={<CalendarDays size={20} />}
+            text="Events"
+            location="/events"
           />
           <SidebarItem
             icon={<BriefcaseBusiness size={20} />}

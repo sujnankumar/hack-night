@@ -113,8 +113,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup max-w-4xl mx-auto p-4 bg-gray-900 rounded-xl">
-      <h2 className="text-2xl font-bold mb-4 text-center text-white">Sign Up</h2>
+    <div className="signup max-w-4xl mx-auto p-6 border-[1px] border-[#4d4d4d] rounded-xl">
+      <h2 className="text-3xl font-bold mb-4 text-center text-white">Sign Up</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Row 1: Username & Full Name */}
@@ -254,7 +254,7 @@ const Signup = () => {
           </div>
         </div>
 
-        <button className="mt-6 w-full bg-blue-500 text-white p-2 rounded-md" type="submit">
+        <button className="mt-6 w-full bg-purple hover:bg-darkPurple text-white p-2 rounded-md" type="submit">
           Sign Up
         </button>
       </form>
