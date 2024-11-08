@@ -9,6 +9,7 @@ import StudentSignup from "./components/Auth/StudentSignup";
 import CollegeSignup from "./components/Auth/CollegeSignup";
 import AlumniSignup from "./components/Auth/AlumniSignup";
 import Chat from "./components/Chat/Chat";
+import Explore from "./components/Explore/Explore";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/signup/alumni",
         element: <AlumniSignup />,
+      },
+      {
+        path: "/explore",
+        element: <Explore />,
       },
       {
         path: "/chat",
