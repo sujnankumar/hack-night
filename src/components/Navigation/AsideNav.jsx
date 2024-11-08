@@ -2,6 +2,7 @@ import {
   Home,
   BriefcaseBusiness,
   MessageSquareMore,
+  Telescope,
   Bell,
   Users,
   Building2,
@@ -16,6 +17,11 @@ const AsideNav = () => {
       <div className="flex">
         <Sidebar>
           <SidebarItem icon={<Home size={20} />} text="Home" location="/" />
+          <SidebarItem
+            icon={<Telescope size={20} />}
+            text="Explore"
+            location="/explore"
+          />
           <SidebarItem
             icon={<BriefcaseBusiness size={20} />}
             text="Jobs"

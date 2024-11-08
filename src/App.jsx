@@ -14,6 +14,8 @@ import Events from "./components/Event/Events";
 import Notifications from "./components/Notifications/Notifications";
 import Jobs from "./components/Jobs/Jobs";
 import JobFormPage from "./components/Jobs/JobFormPage";
+import Explore from "./components/Explore/Explore";
+import Connections from "./components/Connections/Connections"
 
 const router = createBrowserRouter([
   {
@@ -68,6 +70,18 @@ const router = createBrowserRouter([
       {
         path: "/create-jobs",
         element: <JobFormPage />,
+      },
+      {
+        path: "/explore",
+        element: <Explore />,
+      },
+      {
+        path: "/chat",
+        element: <Chat />,
+      },
+      {
+        path: "/connections",
+        element: <Connections />,
       },
     ],
   },
