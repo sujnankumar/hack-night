@@ -15,7 +15,6 @@ import Notifications from "./components/Notifications/Notifications";
 import Jobs from "./components/Jobs/Jobs";
 import JobFormPage from "./components/Jobs/JobFormPage";
 import Explore from "./components/Explore/Explore";
-import Connections from "./components/Connections/Connections"
 import CollegeEvent from "./components/College/CollegeEvent";
 import Connections from "./components/Connections/Connections";
 import Help from "./components/Help/Help";
