@@ -5,6 +5,7 @@ import Home from "./components/Home/Home";
 import ErrorPage from "./components/Error/Error";
 import Login from "./components/Auth/Login"
 import Signup from "./components/Auth/Signup"
+import Chat from "./components/Chat/Chat"
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
+      {
+        path: "/chat",
+        element: <Chat />
+      }
     ],
   },
 ]);
