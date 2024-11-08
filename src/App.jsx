@@ -16,6 +16,7 @@ import Jobs from "./components/Jobs/Jobs";
 import JobFormPage from "./components/Jobs/JobFormPage";
 import Explore from "./components/Explore/Explore";
 import Connections from "./components/Connections/Connections"
+import CollegeEvent from "./components/College/CollegeEvent";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/connections",
         element: <Connections />,
+      },
+      {
+        path: "/college-event",
+        element: <CollegeEvent />,
       },
     ],
   },
