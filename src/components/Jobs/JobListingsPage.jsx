@@ -25,13 +25,12 @@ const JobListingsPage = ({ jobs }) => {
             onClick={() => handleCardClick(job)}
           >
             <div className="p-4">
-              <h3 className="text-lg font-semibold">{job.jobRole}</h3>
-              <p className="text-gray-500">{job.companyName}</p>
+              <h3 className="text-lg font-semibold">{job.title}</h3>
+              <p className="text-gray-500">{job.company}</p>
               <p className="text-gray-400 text-sm">{job.location}</p>
-              <p className="text-gray-500 text-xs">Deadline: {job.deadline}</p>
             </div>
           </div>
-        ))}
+        ))} 
       </div>
 
       {/* Job modal: display only if a job is selected */}

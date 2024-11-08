@@ -4,7 +4,7 @@ import styles from "./Signup.module.css"; // Import the CSS Module file
 import axiosInstance from '../../axios'; // Import axios instance
 
 // Sample options for the role select box
-const roleOptions = ["Student", "College", "Alumni"];
+const roleOptions = ["student", "college", "alumni"];
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const Signup = () => {
     name: "",
     phone: "",
     email: "",
-    role: "Student", // default role
+    role: "student", // default role
     collegeName: "", // new college name field
     password: "", // new password field
   });
@@ -73,11 +73,11 @@ const Signup = () => {
         console.log(response.data.message);
         alert("Sign-up successful!");
         // Navigate based on the role
-        if (formData.role === "Student") {
+        if (formData.role === "student") {
           navigate("/signup/student");
-        } else if (formData.role === "College") {
+        } else if (formData.role === "college") {
           navigate("/signup/college");
-        } else if (formData.role === "Alumni") {
+        } else if (formData.role === "alumni") {
           navigate("/signup/alumni");
         }
       })
@@ -96,7 +96,7 @@ const Signup = () => {
       name: "",
       phone: "",
       email: "",
-      role: "Student",
+      role: "student",
       collegeName: "", // Reset college name as well
       password: "", // Reset password
     });
