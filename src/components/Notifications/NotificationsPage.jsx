@@ -1,3 +1,4 @@
+import { FaTrash, FaBell } from 'react-icons/fa';
 import React, { useState, useEffect } from "react";
 import NotificationModal from "./NotificationModal";
 import "./Notifications.css";
@@ -29,9 +30,15 @@ const NotificationsPage = () => {
     setSelectedNotification(null); // Close modal by setting selectedNotification to null
   };
 
+  const deleteNotification = (indexToDelete) => {
+    setNotifications(notifications.filter((_, index) => index !== indexToDelete));
+  };
+
   return (
-    <div className="notifications-page min-h-screen bg-gray-950 p-6 flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-purple mb-6">Notifications</h2>
+    <div className="notifications-page min-h-screen bg-transparent p-6 flex flex-col items-center">
+      <h2 className="text-3xl font-bold text-purple-600 mb-8 flex items-center gap-2">
+        <FaBell /> Notifications
+      </h2>
 
       <ul className="notifications-list w-full max-w-3xl space-y-4">
         {notifications.length > 0 ? (

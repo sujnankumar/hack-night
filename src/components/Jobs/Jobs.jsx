@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
-import JobFormPage from './JobFormPage';
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../../axios'; // Use your axios instance
 import JobListingsPage from './JobListingsPage';
 
 const Jobs = () => {
-    const [jobs, setJobs] = useState([
-        { companyName: 'TechCorp', jobRole: 'Software Engineer', location: 'Remote', requirements: '2+ years of experience in React', deadline: '2024-12-01', description: 'A great opportunity for frontend developers.' },
-        { companyName: 'Innovatech', jobRole: 'Backend Developer', location: 'New York', requirements: '3+ years of experience in Node.js', deadline: '2024-12-15', description: 'Join our team to work on backend projects.' },
-    ]);
+    const [jobs, setJobs] = useState([]);
+    const [error, setError] = useState('');
 
-    const handleJobSubmit = (job) => {
-        setJobs([...jobs, job]); // Update the jobs state with the new job
-    };
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                const response = await axiosInstance.get('/api/alumni/get_jobs');
+                const jobData = response.data.map(job => ({
+                    company: job.company,
+                    title: job.title,
+                    location: job.location,
+                    requirements: job.required_skills,
+                    description: job.description,
+                }));
+                setJobs(jobData);
+                console.log(jobData);
+            } catch (err) {
+                setError("Error fetching jobs. Please try again.");
+                console.error(err);
+            }
+        };
+        fetchJobs();
+    }, []);
 
     return (
         <>
+            {error && <p>{error}</p>}
             <JobListingsPage jobs={jobs} />
         </>
     );
-}
+};
 
 export default Jobs;

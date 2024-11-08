@@ -12,6 +12,10 @@ const StudentSignup = () => {
     resume: null,
     linkedin: "",
     selectedSkills: [],
+    bio: "",
+    learning_years: 0,
+    interests: "",
+
   });
 
   const [error, setError] = useState("");
@@ -42,18 +46,18 @@ const StudentSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Simple validation
+  
+    // Basic Validation
     if (!formData.resume) {
       setError("Resume is required");
       return;
     }
-
+  
     if (!formData.linkedin) {
       setError("LinkedIn profile URL is required");
       return;
     }
-
+  
     if (
       !/^https?:\/\/(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+(?:\/|$)/.test(
         formData.linkedin
@@ -62,44 +66,45 @@ const StudentSignup = () => {
       setError("Please enter a valid LinkedIn URL");
       return;
     }
-
-    // Clear previous error
+  
     setError("");
-
-    // Create FormData to send with the POST request
+  
+    // Prepare FormData
     const data = new FormData();
-    data.append("resume", formData.resume); // Append the resume file
-    data.append("linkedin", formData.linkedin); // Append the LinkedIn URL
-    data.append("skills", JSON.stringify(formData.selectedSkills)); // Append the selected skills as a JSON string
-
+    data.append("resume", formData.resume);  // File data
+    data.append("json_data", JSON.stringify({
+      linkedin: formData.linkedin,
+      skills: formData.selectedSkills, 
+      bio: formData.bio,
+      learning_years: formData.learning_years,
+      interests: formData.interests,
+    }));
+    console.log(data);
     try {
-      // Send the POST request to the backend
-      const response = await axiosInstance.post(
-        "/api/profile/student", 
-        data, 
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // Important for file uploads
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, // Assuming JWT token is stored in localStorage
-          },
-        }
-      );
-      // Handle success
-      setSuccess(response.data.message); 
-      console.log("Profile created successfully");
-
-      // Reset form data
+      const response = await axiosInstance.post("/api/profile/student", data, {
+        withCredentials: false,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "multipart/form-data", // Ensure the correct content type
+          "Accept": "application/json",  // Ensure the correct content type
+        },
+      });
+      console.log(response.data.error);
+      setSuccess(response.data.message);  // On success, show success message
+  
+      // Clear form after successful submission
       setFormData({
         resume: null,
         linkedin: "",
         selectedSkills: [],
       });
     } catch (err) {
-      // Handle errors
       setError("There was an error creating the student profile");
       console.error(err);
     }
   };
+  
+  
 
   return (
     <div className={styles.registrationForm}>
@@ -117,6 +122,7 @@ const StudentSignup = () => {
             type="file"
             id="resume"
             name="resume"
+            accept=".pdf"
             onChange={handleFileChange}
             required
             className={styles.input}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axiosInstance from '../../axios';
 
 const AlumniEventCreate = () => {
   const [eventData, setEventData] = useState({
@@ -8,6 +9,7 @@ const AlumniEventCreate = () => {
     location: '',
     description: '',
     image: null,
+    maxParticipants: '',
   });
 
   const handleChange = (e) => {
@@ -25,24 +27,42 @@ const AlumniEventCreate = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder for submit logic (e.g., form data submission to backend)
-    console.log("Event Created:", eventData);
+
+    // Create FormData object to handle file upload
+    const formData = new FormData();
+    formData.append('event_name', eventData.eventName);
+    formData.append('event_date', eventData.eventDate);
+    formData.append('event_time', eventData.eventTime);
+    formData.append('event_venue', eventData.location);
+    formData.append('event_description', eventData.description);
+    // formData.append('event_image', eventData.image); // Adding the image (if any)
+    formData.append('max_participants', eventData.maxParticipants);
+
+    try {
+      const response = await axiosInstance.post('/api/alumni/create_event', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Ensure correct content type is set
+          'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
+        },
+      });
+
+      console.log(response.data); // Success message
+      // Handle success (e.g., redirect, show success message)
+    } catch (error) {
+      console.error(error.response.data); // Handle error (e.g., show error message)
+    }
   };
 
   return (
     <div className="flex justify-center items-center transparent">
       <div className="max-w-lg w-full bg-gray-950 p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-purple mb-6 text-center">
-          Create an Event
-        </h2>
-        
+        <h2 className="text-2xl font-bold text-purple mb-6 text-center">Create an Event</h2>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-400">
-              Event Name
-            </label>
+            <label className="block text-sm font-medium text-gray-400">Event Name</label>
             <input
               type="text"
               name="eventName"
@@ -56,9 +76,7 @@ const AlumniEventCreate = () => {
 
           <div className="flex space-x-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-400">
-                Date
-              </label>
+              <label className="block text-sm font-medium text-gray-400">Date</label>
               <input
                 type="date"
                 name="eventDate"
@@ -69,23 +87,33 @@ const AlumniEventCreate = () => {
               />
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-400">
-                Time
-              </label>
+              <label className="block text-sm font-medium text-gray-400">Time</label>
               <input
                 type="time"
                 name="eventTime"
                 value={eventData.eventTime}
                 onChange={handleChange}
                 className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none text-black focus:ring focus:ring-blue-200"
+                required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-400">
-              Location
-            </label>
+            <label className="block text-sm font-medium text-gray-400">Max Participants</label>
+            <input
+              type="number"
+              name="maxParticipants"
+              value={eventData.maxParticipants}
+              onChange={handleChange}
+              placeholder="Enter maximum participants"
+              className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none text-black focus:ring focus:ring-blue-200"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-400">Location</label>
             <input
               type="text"
               name="location"
@@ -98,9 +126,7 @@ const AlumniEventCreate = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-400">
-              Description
-            </label>
+            <label className="block text-sm font-medium text-gray-400">Description</label>
             <textarea
               name="description"
               value={eventData.description}
@@ -112,17 +138,15 @@ const AlumniEventCreate = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Event Image (optional)
-            </label>
+          {/* <div>
+            <label className="block text-sm font-medium text-gray-700">Event Image (optional)</label>
             <input
               type="file"
               onChange={handleImageChange}
               className="mt-1 w-full text-sm text-gray-400"
               accept="image/*"
             />
-          </div>
+          </div> */}
 
           <button
             type="submit"

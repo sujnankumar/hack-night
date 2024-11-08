@@ -43,4 +43,55 @@
   .modal-content {
     transition: transform 0.3s ease;
   }
+
+/* Notifications.css */
+
+
+.notifications-list {
+  width: 100%;
+  max-width: 600px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notification-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.notification-item h3 {
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.notification-item p {
+  color: #a0aec0;
+  font-size: 0.875rem;
+}
+
+.notification-item button {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #718096;
+  transition: color 0.2s ease;
+}
+
+.notification-item button:hover {
+  color: #e53e3e;
+}
+
+.text-purple-600 {
+  color: #6b46c1;
+}
+
   
