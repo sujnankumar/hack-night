@@ -41,7 +41,7 @@ const router = createBrowserRouter([
         element: <AlumniSignup />,
       },
       {
-        path: "/chat",
+        path: "/messaging",
         element: <Chat />,
       },
     ],
