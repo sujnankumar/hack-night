@@ -205,14 +205,14 @@ const Signup = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="Password">
+          <label className={styles.label} htmlFor="password">
             Password:
           </label>
           <input
             className={styles.input}
             type="password"
-            id="Password"
-            name="Password"
+            id="password"
+            name="password"
             value={formData.password}
             onChange={handleChange}
             required
