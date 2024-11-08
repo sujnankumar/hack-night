@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Signup.module.css"; // Import the CSS Module file
 import axiosInstance from '../../axios'; // Import axios instance
 
 // Sample options for the role select box
@@ -17,19 +16,27 @@ const Signup = () => {
     role: "student", // default role
     collegeName: "", // new college name field
     password: "", // new password field
+    profilePicture: null, // file for profile picture
   });
 
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData((prevData) => ({
+        ...prevData,
+        profilePicture: files[0], // Handle file uploads
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value, // Update state for other form inputs
+      }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Simple validation
@@ -57,36 +64,38 @@ const Signup = () => {
       return;
     }
 
-    // Make a request to the Flask API to register the user
-    axiosInstance
-      .post("/api/register", {
-        username: formData.username,
-        password: formData.password, // Assuming you have a password field in your formData
-        // password: "password", // Hardcoding password for now
-        name: formData.name,
-        phone_number: formData.phone,
-        email: formData.email,
-        role: formData.role,
-        college_name: formData.collegeName,
-      })
-      .then((response) => {
-        console.log(response.data.message);
-        alert("Sign-up successful!");
-        // Navigate based on the role
-        if (formData.role === "student") {
-          navigate("/signup/student");
-        } else if (formData.role === "college") {
-          navigate("/signup/college");
-        } else if (formData.role === "alumni") {
-          navigate("/signup/alumni");
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error registering the user!", error);
-        setError(error.response?.data?.message || "An error occurred during registration");
+    const data = new FormData();
+    data.append("json_data", JSON.stringify({
+      username: formData.username,
+      password: formData.password,
+      name: formData.name,
+      phone_number: formData.phone,
+      email: formData.email,
+      role: formData.role,
+      college_name: formData.collegeName,
+    }));
+
+    // Append the profile picture if it exists
+    if (formData.profilePicture) {
+      data.append("profile_picture", formData.profilePicture);
+    }
+
+    try {
+      // Make a request to the Flask API to register the user
+      const response = await axiosInstance.post("/api/register", data, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Set the content type to handle form data
+        },
       });
 
-    // Reset error and simulate a successful form submission
+      console.log(response.data.message);
+      alert("Sign-up successful!");
+      navigate(`/signup/${formData.role}`);
+    } catch (error) {
+      console.error("There was an error registering the user!", error);
+      setError(error.response?.data?.message || "An error occurred during registration");
+    }
+
     setError("");
     console.log("Form data submitted:", formData);
 
@@ -97,129 +106,155 @@ const Signup = () => {
       phone: "",
       email: "",
       role: "student",
-      collegeName: "", // Reset college name as well
-      password: "", // Reset password
+      collegeName: "",
+      password: "",
+      profilePicture: null,
     });
   };
 
   return (
-    <div className={styles.signup}>
-      <h2 className={styles.heading}>Sign Up</h2>
-      {error && <p className={styles.error}>{error}</p>}
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="username">
-            Username:
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
+    <div className="signup max-w-4xl mx-auto p-4 bg-gray-900 rounded-xl">
+      <h2 className="text-2xl font-bold mb-4 text-center text-white">Sign Up</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Row 1: Username & Full Name */}
+        <div className="flex space-x-4">
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="username">
+              Username:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="name">
+              Full Name:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="name">
-            Full Name:
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+        {/* Row 2: Phone & Email */}
+        <div className="flex space-x-4">
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="phone">
+              Phone Number:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="text"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              placeholder="e.g., 1234567890"
+            />
+          </div>
+
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="email">
+              Email Address:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="phone">
-            Phone Number:
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            placeholder="e.g., 1234567890"
-          />
+        {/* Row 3: College Name & Role */}
+        <div className="flex space-x-4">
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="collegeName">
+              College Name:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="text"
+              id="collegeName"
+              name="collegeName"
+              value={formData.collegeName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="role">
+              Role:
+            </label>
+            <select
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+            >
+              {roleOptions.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="email">
-            Email Address:
-          </label>
-          <input
-            className={styles.input}
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+        {/* Row 4: Profile Picture & Password */}
+        <div className="flex space-x-4">
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="profilePicture">
+              Profile Picture:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="file"
+              id="profilePicture"
+              name="profilePicture"
+              accept="image/*"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="w-1/2">
+            <label className="block text-sm font-medium text-gray-400" htmlFor="password">
+              Password:
+            </label>
+            <input
+              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        {/* College Name input field - Always shown */}
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="collegeName">
-            College Name:
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            id="collegeName"
-            name="collegeName"
-            value={formData.collegeName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="role">
-            Role:
-          </label>
-          <select
-            className={styles.select}
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            required
-          >
-            {roleOptions.map((role) => (
-              <option key={role} value={role}>
-                {role}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="password">
-            Password:
-          </label>
-          <input
-            className={styles.input}
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <button className={styles.button} type="submit">
+        <button className="mt-6 w-full bg-blue-500 text-white p-2 rounded-md" type="submit">
           Sign Up
         </button>
       </form>
