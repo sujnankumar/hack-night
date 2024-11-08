@@ -1,0 +1,138 @@
+/* Main container for the help page */
+.helpPageContainer {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Arial", sans-serif;
+}
+
+/* Header styling */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: var(--lightWhite); /* Use the lightWhite color variable for the main heading */
+}
+
+.header p {
+  font-size: 1.1rem;
+  color: #777;
+}
+
+/* Introduction section */
+.introduction {
+  margin-bottom: 40px;
+}
+
+.introduction h2 {
+  font-size: 2rem;
+  color: var(--lightWhite); /* Apply lightWhite color to section headings */
+  margin-bottom: 10px;
+}
+
+.introduction p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Features section */
+.features {
+  margin-bottom: 40px;
+}
+
+.features h2 {
+  font-size: 2rem;
+  color: var(--lightWhite); /* Use lightWhite color for section titles */
+  margin-bottom: 20px;
+}
+
+.feature {
+  margin-bottom: 20px;
+}
+
+.feature h3 {
+  font-size: 1.5rem;
+  color: var(--lightWhite); /* Use lightWhite color for feature titles */
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* FAQ section */
+.faq {
+  margin-bottom: 40px;
+}
+
+.faq h2 {
+  font-size: 2rem;
+  color: var(--lightWhite); /* lightWhite color for FAQ section heading */
+  margin-bottom: 20px;
+}
+
+.faqItem {
+  margin-bottom: 20px;
+}
+
+.faqItem h3 {
+  font-size: 1.2rem;
+  color: var(--lightWhite); /* Use lightWhite for FAQ question titles */
+}
+
+.faqItem p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Contact section */
+.contact {
+  margin-bottom: 40px;
+}
+
+.contact h2 {
+  font-size: 2rem;
+  color: var(--lightWhite); /* lightWhite color for Contact section heading */
+  margin-bottom: 20px;
+}
+
+.contact p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.contact a {
+  color: var(--lightWhite); /* lightWhite color for the email link */
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .helpPageContainer {
+    padding: 15px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .header p {
+    font-size: 1rem;
+  }
+
+  .feature h3 {
+    font-size: 1.3rem;
+  }
+
+  .faqItem h3 {
+    font-size: 1.1rem;
+  }
+}

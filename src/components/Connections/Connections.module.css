@@ -1,54 +1,140 @@
-.container {
-  display: flex;
-  padding: 1.5rem;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 0.75rem;
-  max-width: 17rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border: 1px solid rgb(44, 44, 44);
-}
-
 .mainContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 1rem;
-  row-gap: 2rem
+  padding: 20px;
 }
 
-.img {
-  aspect-ratio: 1 / 1;
-  border-radius: 9999px;
-  width: 8rem;
-  height: 8rem;
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.name {
+.invitationSection {
+  margin-bottom: 30px;
+}
+
+.invitationsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.invitationCard {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.invitationDetails {
+  margin-left: 10px;
+}
+
+.invitationName {
+  font-weight: bold;
+}
+
+.invitationJob {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.invitationButton {
+  background-color: #6b3f98;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.invitationButton:hover {
+  background-color: #5b3380;
+}
+
+.connectionSection {
+  margin-top: 20px;
+}
+
+.connectionCard {
+  display: inline-block;
+  width: 180px;
+  text-align: center;
+  margin-right: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.modalTitle {
   font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-
-  @media (min-width: 640px) {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
+  margin-bottom: 10px;
 }
 
-.job {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-
-  @media (min-width: 640px) {
-    font-size: 1rem;
-    line-height: 1.5rem;
-  }
+.modalJob {
+  color: #555;
+  margin-bottom: 20px;
 }
 
-.text {
-    margin-top: 0.5rem;
-margin-bottom: 0.5rem; 
-margin-top: 0.25rem; 
+.modalActions {
+  margin-bottom: 15px;
+}
+
+.acceptButton,
+.rejectButton {
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+}
+
+.acceptButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.rejectButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.acceptButton:hover {
+  background-color: #45a049;
+}
+
+.rejectButton:hover {
+  background-color: #e53935;
+}
+
+.closeModal {
+  background-color: #888;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.closeModal:hover {
+  background-color: #666;
 }

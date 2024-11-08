@@ -1,12 +1,26 @@
-// NotificationsPage.js
-import React, { useState } from 'react';
 import { FaTrash, FaBell } from 'react-icons/fa';
-import NotificationModal from './NotificationModal';
-import './Notifications.css';
+import React, { useState, useEffect } from "react";
+import NotificationModal from "./NotificationModal";
+import "./Notifications.css";
+import axiosInstance from "../../axios"; // Import axios instance
 
-const NotificationsPage = ({ notifications: initialNotifications }) => {
-  const [notifications, setNotifications] = useState(initialNotifications);
+const NotificationsPage = () => {
+  const [notifications, setNotifications] = useState([]);
   const [selectedNotification, setSelectedNotification] = useState(null);
+
+  // Fetch notifications from the API on component mount
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axiosInstance.get("/api/get_notifications");
+        setNotifications(response.data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []); // Empty dependency array to run this effect once when the component mounts
 
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification); // Set the selected notification for modal display
@@ -27,30 +41,30 @@ const NotificationsPage = ({ notifications: initialNotifications }) => {
       </h2>
 
       <ul className="notifications-list w-full max-w-3xl space-y-4">
-        {notifications.map((notification, index) => (
-          <li
-            key={index}
-            className="notification-item bg-gray-900 p-4 rounded-lg shadow-md flex justify-between items-center transition duration-200 transform hover:scale-105 hover:shadow-lg"
-          >
-            <div onClick={() => handleNotificationClick(notification)} className="flex-grow cursor-pointer">
-              <h3 className="text-lg font-semibold text-gray-800">{notification.title}</h3>
-              <p className="text-sm text-gray-500">{notification.date}</p>
-            </div>
-            <button
-              onClick={() => deleteNotification(index)}
-              className="text-gray-500 hover:text-red-600 transition"
-              aria-label="Delete Notification"
+        {notifications.length > 0 ? (
+          notifications.map((notification, index) => (
+            <li
+              key={index}
+              className="notification-item bg-gray-900 p-4 rounded-lg shadow-md hover:shadow-lg cursor-pointer transition-shadow duration-200"
+              onClick={() => handleNotificationClick(notification)}
             >
-              <FaTrash size={18} />
-            </button>
-          </li>
-        ))}
+              <h3 className="text-lg font-semibold text-white">
+                {notification.title}
+              </h3>
+              <p className="text-sm text-gray-400">
+                {new Date(notification.timestamp).toLocaleString()}
+              </p>
+            </li>
+          ))
+        ) : (
+          <p className="text-white">No notifications available.</p>
+        )}
       </ul>
 
       {/* Display modal if a notification is selected */}
       {selectedNotification && (
         <NotificationModal
-          notification={selectedNotification}
+          notification={selectedNotification} // Correct prop name passed here
           closeModal={closeModal}
         />
       )}

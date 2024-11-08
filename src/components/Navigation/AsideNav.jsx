@@ -2,6 +2,7 @@ import {
   Home,
   BriefcaseBusiness,
   MessageSquareMore,
+  ChartColumnIncreasing,
   Telescope,
   Bell,
   Users,
@@ -48,6 +49,11 @@ const AsideNav = () => {
             icon={<Building2 size={20} />}
             text="Companies"
             location="/companies"
+          />
+          <SidebarItem
+            icon={<ChartColumnIncreasing size={20} />}
+            text="Analytics"
+            location="/analytics"
           />
           <hr className="my-3" />
           <SidebarItem

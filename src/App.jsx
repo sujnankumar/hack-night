@@ -17,6 +17,9 @@ import JobFormPage from "./components/Jobs/JobFormPage";
 import Explore from "./components/Explore/Explore";
 import Connections from "./components/Connections/Connections"
 import CollegeEvent from "./components/College/CollegeEvent";
+import Connections from "./components/Connections/Connections";
+import Help from "./components/Help/Help";
+import AnalyticsPage from "./components/Analytics/AnalyticsPage";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +80,10 @@ const router = createBrowserRouter([
         element: <Explore />,
       },
       {
+        path: "/analytics",
+        element: <AnalyticsPage />,
+      },
+      {
         path: "/chat",
         element: <Chat />,
       },
@@ -87,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: "/college-event",
         element: <CollegeEvent />,
+      },
+  {
+        path: "/help",
+        element: <Help />,
       },
     ],
   },
