@@ -1,46 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Connections.module.css";
-
-// Dummy connection data
-const connections = [
-  {
-    imgScr: "",
-    name: "Leroy Jenkins",
-    userName: "oeu",
-    job: "Full-stack developer",
-  },
-  {
-    imgScr: "",
-    name: "Jane Doe",
-    userName: "janedoe",
-    job: "Software Engineer",
-  },
-  // Add more connection data as needed
-];
-
-// Dummy invitations data
-const invitations = [
-  {
-    imgScr: "",
-    name: "John Smith",
-    userName: "john_smith",
-    job: "Data Scientist",
-  },
-  {
-    imgScr: "",
-    name: "Alice Cooper",
-    userName: "alicec",
-    job: "Product Manager",
-  },
-];
+import axios from "../../axios";
 
 const Connections = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedInvitation, setSelectedInvitation] = useState(null);
+  const [invitations, setInvitations] = useState([]);
+  const [connections, setConnections] = useState([]);
 
-  const handleAccept = () => {
-    alert("Connection request accepted!");
-    setShowModal(false);
+  // Fetch invitations and connections from the backend
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch invitations
+        const invitationResponse = await axios.get("/api/invitations", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`, // assuming JWT is stored in localStorage
+          },
+        });
+        setInvitations(invitationResponse.data);
+
+        // Fetch connections
+        const connectionResponse = await axios.get("/api/connections", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
+          },
+        });
+        setConnections(connectionResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleAccept = async () => {
+    try {
+      // Call the backend API to accept the connection
+      await axios.post(
+        `/api/accept_invitation/${selectedInvitation.id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt_token")}`, // Include JWT token for authorization
+          },
+        }
+      );
+      alert("Connection request accepted!");
+      // Update state to reflect changes
+      setShowModal(false);
+      setConnections((prevConnections) => [
+        ...prevConnections,
+        {
+          id: selectedInvitation.id,
+          name: selectedInvitation.name,
+          job: selectedInvitation.job,
+          imgScr: selectedInvitation.imgScr,
+        },
+      ]);
+      // Optionally, remove the invitation from the list
+      setInvitations((prevInvitations) =>
+        prevInvitations.filter(
+          (invitation) => invitation.id !== selectedInvitation.id
+        )
+      );
+    } catch (error) {
+      console.error("Error accepting connection:", error);
+      alert("Failed to accept the connection request.");
+    }
   };
 
   const handleReject = () => {
@@ -93,22 +120,28 @@ const Connections = () => {
       {/* Connections Section */}
       <div className={classes.connectionSection}>
         <h2 className={classes.sectionTitle}>Your Connections</h2>
-        {connections.map((connection, index) => (
-          <div key={index} className={classes.connectionCard}>
-            <img
-              src={connection.imgScr}
-              alt={connection.name}
-              className="w-32 h-32 mx-auto rounded-full"
-            />
-            <div className="text-center">
-              <h2 className="text-xl font-semibold">{connection.name}</h2>
-              <p className="text-sm text-gray-600">{connection.job}</p>
-              <a href="#" className="text-purple-600">
-                View Profile
-              </a>
-            </div>
+        {connections.length > 0 ? (
+          <div className={classes.connectionsList}>
+            {connections.map((connection, index) => (
+              <div key={index} className={classes.connectionCard}>
+                <img
+                  src={connection.imgScr}
+                  alt={connection.name}
+                  className="w-32 h-32 mx-auto rounded-full"
+                />
+                <div className="text-center">
+                  <h2 className="text-xl font-semibold">{connection.name}</h2>
+                  <p className="text-sm text-gray-600">{connection.job}</p>
+                  <a href="#" className="text-purple-600">
+                    View Profile
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <p>No connections available.</p>
+        )}
       </div>
 
       {/* Modal for Accepting or Rejecting Invitation */}
