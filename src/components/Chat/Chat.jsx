@@ -16,7 +16,7 @@ const defaultChats = [
   {
     id: 2,
     name: 'Jeff Bezos',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCc9PbZelzVjq69dEdXcIf46XY9fNZZmfdKM7x8pW7fw&s',
+    image: 'https://th.bing.com/th?q=Profile+for+Boys&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247',
     unread: 1,
     messages: [
       { me: true, text: 'Hey Jeff, what’s up?', time: '12:00 PM' },
@@ -26,7 +26,7 @@ const defaultChats = [
   {
     id: 3,
     name: 'Bill Gates',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHQjRmDeuuxG8HlJ4lFrd-pA9fCOFgS3pM2D8uJ28XmV&s',
+    image: 'https://th.bing.com/th/id/OIP.YDyoIafIwW1tILED3HgZRQHaHa?w=193&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
     unread: 2,
     messages: [
       { me: true, text: 'Hey Bill, did you see the new tech announcement?', time: '1:00 PM' },
@@ -37,7 +37,7 @@ const defaultChats = [
   {
     id: 4,
     name: 'Sundar Pichai',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnGgGqaIzNFWgxtxzbgzYbKhFeffpzV2zWttVQpz9XyQ&s',
+    image: 'https://th.bing.com/th/id/OIP.WazsBZZNILHEXLo0CyWlpAHaJO?w=136&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
     unread: 0,
     messages: [
       { me: true, text: 'Sundar, are we on for the meeting at 3?', time: '2:30 PM' },
@@ -47,7 +47,7 @@ const defaultChats = [
   {
     id: 5,
     name: 'Mark Zuckerberg',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1qgiyjS7Zf31H8b5WdxvYn4un2dtE5fuN7dkO7Is_TQ&s',
+    image: 'https://th.bing.com/th?q=Profile+for+Boys&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247',
     unread: 3,
     messages: [
       { me: true, text: 'Hey Mark, have you seen the new updates for Facebook?', time: '3:00 PM' },
@@ -59,7 +59,7 @@ const defaultChats = [
   {
     id: 6,
     name: 'Tim Cook',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-XbH9hXhZmUtsSvLFy4KzK5qXbmqwsSzCvwTTfktcew&s',
+    image: 'https://th.bing.com/th/id/OIP.WazsBZZNILHEXLo0CyWlpAHaJO?w=136&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
     unread: 0,
     messages: [
       { me: true, text: 'Tim, when is the next Apple event?', time: '4:00 PM' },
@@ -69,7 +69,7 @@ const defaultChats = [
   {
     id: 7,
     name: 'Satya Nadella',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6xzm9LzNsUs3rhQWOfAvHL4aKHmuOlw5vLBtN3w9Vzg&s',
+    image: 'https://th.bing.com/th/id/OIP.YDyoIafIwW1tILED3HgZRQHaHa?w=193&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
     unread: 4,
     messages: [
       { me: true, text: 'Satya, do you have any updates on Azure?', time: '5:00 PM' },
@@ -81,7 +81,7 @@ const defaultChats = [
   {
     id: 8,
     name: 'Sheryl Sandberg',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1yFLhSg8yxA3wTXnxWlHy_StRZzF4L_rPHTm7q0k6aQ&s',
+    image: 'https://th.bing.com/th/id/OIP.WazsBZZNILHEXLo0CyWlpAHaJO?w=136&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
     unread: 0,
     messages: [
       { me: true, text: 'Sheryl, are we ready for the board meeting?', time: '6:00 PM' },
@@ -91,7 +91,7 @@ const defaultChats = [
   {
     id: 9,
     name: 'Larry Page',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4lAqLZNGPzj0wTqE2VtJS2mB8s4sCqA1p4wwXrZjySYQ&s',
+    image: 'https://th.bing.com/th?q=Profile+for+Boys&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247',
     unread: 1,
     messages: [
       { me: true, text: 'Hey Larry, did you check out the new Google project?', time: '7:00 PM' },
@@ -101,7 +101,7 @@ const defaultChats = [
   {
     id: 10,
     name: 'Jack Dorsey',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaHVFpnizV_d-7VpGq-Vh0rG9JybLgQ-e20v0qIuFjeQ&s',
+    image: 'https://th.bing.com/th/id/OIP.YDyoIafIwW1tILED3HgZRQHaHa?w=193&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7',
     unread: 2,
     messages: [
       { me: true, text: 'Jack, have you seen the latest Twitter update?', time: '8:00 PM' },
@@ -115,11 +115,14 @@ const Chat = () => {
   const [selectedChat, setSelectedChat] = useState(null);
 
   return (
-    <div className="chat flex flex-row w-full">
+    <div className="chat flex flex-row w-full h-full">
+      {/* Chat List (left) */}
       <ChatList chats={defaultChats} setSelectedChat={setSelectedChat} />
+      {/* Chat Window (right) */}
       <ChatWindow chats={defaultChats} selectedChat={selectedChat} setSelectedChat={setSelectedChat} />
     </div>
   );
 };
+
 
 export default Chat;

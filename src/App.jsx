@@ -9,6 +9,11 @@ import StudentSignup from "./components/Auth/StudentSignup";
 import CollegeSignup from "./components/Auth/CollegeSignup";
 import AlumniSignup from "./components/Auth/AlumniSignup";
 import Chat from "./components/Chat/Chat";
+import AlumniEventCreate from "./components/Event/AlumniEventCreate";
+import Events from "./components/Event/Events";
+import Notifications from "./components/Notifications/Notifications";
+import Jobs from "./components/Jobs/Jobs";
+import JobFormPage from "./components/Jobs/JobFormPage";
 import Explore from "./components/Explore/Explore";
 import Connections from "./components/Connections/Connections"
 
@@ -41,6 +46,30 @@ const router = createBrowserRouter([
       {
         path: "/signup/alumni",
         element: <AlumniSignup />,
+      },
+      {
+        path: "/messaging",
+        element: <Chat />,
+      },
+      {
+        path: "/create-event",
+        element: <AlumniEventCreate />,
+      },
+      {
+        path: "/events",
+        element: <Events />,
+      },
+      {
+        path: "/notifications",
+        element: <Notifications />,
+      },
+      {
+        path: "/jobs",
+        element: <Jobs />,
+      },
+      {
+        path: "/create-jobs",
+        element: <JobFormPage />,
       },
       {
         path: "/explore",
