@@ -1,22 +1,10 @@
 import React, { useState } from "react";
-import styles from "./StudentSignup.module.css"; // Assuming you have a CSS module for styling
+import axiosInstance from "../../axios"; // Assuming you have your axios instance
+import styles from "./StudentSignup.module.css"; // CSS module for styling
 
 const skillsOptions = [
-  "JavaScript",
-  "React",
-  "Node.js",
-  "Python",
-  "Java",
-  "C++",
-  "SQL",
-  "HTML",
-  "CSS",
-  "Git",
-  "Machine Learning",
-  "Data Science",
-  "UI/UX Design",
-  "Blockchain",
-  "Cloud Computing",
+  "JavaScript", "React", "Node.js", "Python", "Java", "C++", "SQL", "HTML", "CSS",
+  "Git", "Machine Learning", "Data Science", "UI/UX Design", "Blockchain", "Cloud Computing"
 ];
 
 const StudentSignup = () => {
@@ -48,12 +36,11 @@ const StudentSignup = () => {
       const newSkills = prevData.selectedSkills.includes(skill)
         ? prevData.selectedSkills.filter((s) => s !== skill)
         : [...prevData.selectedSkills, skill];
-
       return { ...prevData, selectedSkills: newSkills };
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Simple validation
@@ -76,17 +63,42 @@ const StudentSignup = () => {
       return;
     }
 
-    // Successful form submission
+    // Clear previous error
     setError("");
-    setSuccess("Registration successful!");
-    console.log("Form data submitted:", formData);
 
-    // Reset form
-    setFormData({
-      resume: null,
-      linkedin: "",
-      selectedSkills: [],
-    });
+    // Create FormData to send with the POST request
+    const data = new FormData();
+    data.append("resume", formData.resume); // Append the resume file
+    data.append("linkedin", formData.linkedin); // Append the LinkedIn URL
+    data.append("skills", JSON.stringify(formData.selectedSkills)); // Append the selected skills as a JSON string
+
+    try {
+      // Send the POST request to the backend
+      const response = await axiosInstance.post(
+        "/api/profile/student", 
+        data, 
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Important for file uploads
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, // Assuming JWT token is stored in localStorage
+          },
+        }
+      );
+      // Handle success
+      setSuccess(response.data.message); 
+      console.log("Profile created successfully");
+
+      // Reset form data
+      setFormData({
+        resume: null,
+        linkedin: "",
+        selectedSkills: [],
+      });
+    } catch (err) {
+      // Handle errors
+      setError("There was an error creating the student profile");
+      console.error(err);
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Signup.module.css"; // Import the CSS Module file
+import axiosInstance from '../../axios'; // Import axios instance
 
 // Sample options for the role select box
 const roleOptions = ["Student", "College", "Alumni"];
@@ -13,7 +14,7 @@ const Signup = () => {
     name: "",
     phone: "",
     email: "",
-    role: "User", // default role
+    role: "Student", // default role
     collegeName: "", // new college name field
   });
 
@@ -35,35 +36,57 @@ const Signup = () => {
       !formData.username ||
       !formData.name ||
       !formData.phone ||
-      !formData.email
+      !formData.email ||
+      !formData.collegeName
     ) {
       setError("All fields are required");
       return;
     }
 
+    // Validate email format
     if (!/^[\w.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(formData.email)) {
       setError("Please enter a valid email address");
       return;
     }
 
+    // Validate phone number format
     if (!/^\d{10}$/.test(formData.phone)) {
       setError("Please enter a valid 10-digit phone number");
       return;
     }
 
+    // Make a request to the Flask API to register the user
+    axiosInstance
+      .post("/api/register", {
+        username: formData.username,
+        password: formData.password, // Assuming you have a password field in your formData
+        // password: "password", // Hardcoding password for now
+        name: formData.name,
+        phone_number: formData.phone,
+        email: formData.email,
+        role: formData.role,
+        college_name: formData.collegeName,
+      })
+      .then((response) => {
+        console.log(response.data.message);
+        alert("Sign-up successful!");
+        // Navigate based on the role
+        if (formData.role === "Student") {
+          navigate("/signup/student");
+        } else if (formData.role === "College") {
+          navigate("/signup/college");
+        } else if (formData.role === "Alumni") {
+          navigate("/signup/alumni");
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error registering the user!", error);
+        setError(error.response?.data?.message || "An error occurred during registration");
+      });
+
     // Reset error and simulate a successful form submission
     setError("");
     console.log("Form data submitted:", formData);
-    alert("Sign-up successful!");
-
-    // Navigate based on the role
-    if (formData.role === "Student") {
-      navigate("/signup/student");
-    } else if (formData.role === "College") {
-      navigate("/signup/college");
-    } else if (formData.role === "Alumni") {
-      navigate("/signup/alumni");
-    }
 
     // Reset form after successful submission
     setFormData({
@@ -71,7 +94,7 @@ const Signup = () => {
       name: "",
       phone: "",
       email: "",
-      role: "User",
+      role: "Student",
       collegeName: "", // Reset college name as well
     });
   };
@@ -157,7 +180,7 @@ const Signup = () => {
             required
           />
         </div>
-        
+
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="role">
             Role:
@@ -176,6 +199,21 @@ const Signup = () => {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="Password">
+            Password:
+          </label>
+          <input
+            className={styles.input}
+            type="password"
+            id="Password"
+            name="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <button className={styles.button} type="submit">

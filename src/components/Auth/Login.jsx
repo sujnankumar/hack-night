@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -7,7 +8,37 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {};
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent the form from submitting and reloading the page
+
+    // Validate the form data (optional)
+    if (!username || !password) {
+      setErrorMessage("Both username and password are required");
+      return;
+    }
+
+    try {
+      // Send the login request to the backend
+      const response = await axiosInstance.post(
+        "/api/login", // Adjust this URL based on your Flask server
+        { username, password }
+      );
+
+      // Handle successful login (store the JWT token in localStorage)
+      const { access_token } = response.data;
+      localStorage.setItem("jwtToken", access_token); // Store the JWT token
+
+      // Redirect the user to a different page (e.g., dashboard)
+      navigate("/dashboard"); // Adjust the path as necessary
+    } catch (error) {
+      // Handle errors (e.g., invalid credentials)
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Invalid username or password");
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+      }
+    }
+  };
 
   return (
     <div className="bg-black flex justify-center mt-10">
@@ -19,14 +50,14 @@ const Login = () => {
         {errorMessage && (
           <p className="text-red-500 text-center mb-4">{errorMessage}</p>
         )}
-        <form noValidate="" onSubmit={handleLogin} className="space-y-12">
+        <form noValidate onSubmit={handleLogin} className="space-y-12">
           <div className="space-y-4">
             <div>
               <label htmlFor="username" className="block mb-2 text-sm">
                 Enter Username
               </label>
               <input
-                type="username"
+                type="text"
                 name="username"
                 id="username"
                 placeholder="jenkins"
@@ -70,7 +101,6 @@ const Login = () => {
                 to={"/signup"}
                 className="hover:underline text-darkPurple"
               >
-                {" "}
                 Sign Up
               </Link>
               .
