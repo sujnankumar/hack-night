@@ -1,0 +1,20 @@
+/* Styling for the Analytics Page */
+.analytics-page {
+  padding: 30px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: var(--purple);
+}
+
+.analytics-container {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+canvas {
+  max-width: 100%;
+  height: auto !important; /* Ensures the chart is responsive */
+}

@@ -17,6 +17,7 @@ import JobFormPage from "./components/Jobs/JobFormPage";
 import Explore from "./components/Explore/Explore";
 import Connections from "./components/Connections/Connections";
 import Help from "./components/Help/Help";
+import AnalyticsPage from "./components/Analytics/AnalyticsPage";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "/explore",
         element: <Explore />,
+      },
+      {
+        path: "/analytics",
+        element: <AnalyticsPage />,
       },
       {
         path: "/chat",
