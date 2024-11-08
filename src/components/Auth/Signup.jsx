@@ -16,6 +16,7 @@ const Signup = () => {
     email: "",
     role: "Student", // default role
     collegeName: "", // new college name field
+    password: "", // new password field
   });
 
   const [error, setError] = useState("");
@@ -37,7 +38,8 @@ const Signup = () => {
       !formData.name ||
       !formData.phone ||
       !formData.email ||
-      !formData.collegeName
+      !formData.collegeName ||
+      !formData.password
     ) {
       setError("All fields are required");
       return;
@@ -96,6 +98,7 @@ const Signup = () => {
       email: "",
       role: "Student",
       collegeName: "", // Reset college name as well
+      password: "", // Reset password
     });
   };
 
