@@ -1,103 +1,139 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import styles from './Signup.module.css'; // Import the CSS Module file
+
+// Sample options for the role select box
+const roleOptions = ['Student', 'College', 'Alumni'];
 
 const Signup = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    name: '',
+    phone: '',
+    email: '',
+    role: 'User', // default role
+  });
 
-  const handleSubmit = () => {};
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Simple validation
+    if (!formData.username || !formData.name || !formData.phone || !formData.email) {
+      setError('All fields are required');
+      return;
+    }
+
+    if (!/^[\w.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(formData.phone)) {
+      setError('Please enter a valid 10-digit phone number');
+      return;
+    }
+
+    // Reset error and simulate a successful form submission
+    setError('');
+    console.log('Form data submitted:', formData);
+    alert('Sign-up successful!');
+    // Reset form after successful submission
+    setFormData({
+      username: '',
+      name: '',
+      phone: '',
+      email: '',
+      role: 'User',
+    });
+  };
 
   return (
-    <div className="bg-black flex justify-center">
-      <div className="flex border border-gray-700 shadow shadow-gray-400 text-lightWhite flex-col max-w-md min-w-[25rem] px-10 pt-7 pb-5 rounded-md sm:px-10">
-        <div className="mb-8 text-center">
-          <h1 className="my-1 text-lightWhite text-4xl font-bold">Sign Up</h1>
-          <p className="text-sm dark:text-gray-600">
-            Sign up to create your account
-          </p>
+    <div className={styles.signup}>
+      <h2 className={styles.heading}>Sign Up</h2>
+      {error && <p className={styles.error}>{error}</p>}
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="username">Username:</label>
+          <input
+            className={styles.input}
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
         </div>
-        {errorMessage && (
-          <p className="text-red-500 text-center mb-4">{errorMessage}</p>
-        )}
-        <form noValidate="" onSubmit={handleSubmit} className="space-y-12">
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="username" className="block mb-2 text-sm">
-                Create username
-              </label>
-              <input
-                type="username"
-                name="username"
-                id="username"
-                placeholder="jenkins"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-                required
-              />
-            </div>
-            <div>
-              <div className="flex justify-between mb-2">
-                <label htmlFor="password" className="text-sm">
-                  Create Password
-                </label>
-              </div>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="*****"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-                required
-              />
-            </div>
-            <div>
-              <div className="flex justify-between mb-2">
-                <label htmlFor="password" className="text-sm">
-                  Re-enter Password
-                </label>
-              </div>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="*****"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-                required
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div>
-              <button
-                type="submit"
-                className="w-full px-8 py-3 font-semibold rounded-md bg-purple hover:bg-darkPurple dark:text-gray-50"
-              >
-                Sign up
-              </button>
-            </div>
-            <p className="px-6 text-sm text-center dark:text-gray-600">
-              Have an account,{" "}
-              <Link
-                rel="noopener noreferrer"
-                to={"/login"}
-                className="hover:underline text-darkPurple"
-              >
-                {" "}
-                Log in
-              </Link>
-              .
-            </p>
-          </div>
-        </form>
-      </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="name">Full Name:</label>
+          <input
+            className={styles.input}
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="phone">Phone Number:</label>
+          <input
+            className={styles.input}
+            type="text"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            placeholder="e.g., 1234567890"
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="email">Email Address:</label>
+          <input
+            className={styles.input}
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="role">Role:</label>
+          <select
+            className={styles.select}
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            required
+          >
+            {roleOptions.map((role) => (
+              <option key={role} value={role}>
+                {role}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button className={styles.button} type="submit">Sign Up</button>
+      </form>
     </div>
   );
 };
