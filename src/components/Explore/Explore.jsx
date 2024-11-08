@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classes from "./Explore.module.css";
 import axiosInstance from "../../axios"; // Import axios instance
+import Member from "./Member";
 
 const Explore = () => {
   const [alumni, setAlumni] = useState([]);
@@ -15,6 +16,7 @@ const Explore = () => {
       try {
         const response = await axiosInstance.get("/api/explore");
         setAlumni(response.data); // Set initial alumni data
+        console.log(response.data)
       } catch (error) {
         console.error("Error fetching initial alumni data:", error);
       }
@@ -106,22 +108,7 @@ const Explore = () => {
 
       <div className={classes.container}>
         {alumni.map((alumnus) => (
-          <div className={classes.box} key={alumnus.user_id}>
-            <img
-              src={alumnus.profile_photo || "default-profile-image-url"}
-              alt={alumnus.name}
-              className={classes.img}
-            />
-            <div>
-              <h2 className={classes.username}>{alumnus.name}</h2>
-              <span className={classes.position}>{alumnus.industry}</span>
-              <p>{alumnus.email}</p>
-              <p>{alumnus.skills}</p>
-            </div>
-            <button type="button" className={classes.button}>
-              Read More
-            </button>
-          </div>
+          <Member key={alumnus.id} alumnus={alumnus} />
         ))}
       </div>
     </>
