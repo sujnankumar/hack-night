@@ -3,11 +3,12 @@ import "./App.css";
 import RootLayout from "./components/Layout/RootLayout";
 import Home from "./components/Home/Home";
 import ErrorPage from "./components/Error/Error";
-import Login from "./components/Auth/Login"
-import Signup from "./components/Auth/Signup"
+import Login from "./components/Auth/Login";
+import Signup from "./components/Auth/Signup";
 import StudentSignup from "./components/Auth/StudentSignup";
-import CollegeSignup from "./components/Auth/CollegeSignup"
-import AlumniSignup from "./components/Auth/AlumniSignup"
+import CollegeSignup from "./components/Auth/CollegeSignup";
+import AlumniSignup from "./components/Auth/AlumniSignup";
+import Chat from "./components/Chat/Chat";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +34,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup/college",
-        element: <CollegeSignup />
+        element: <CollegeSignup />,
       },
       {
         path: "/signup/alumni",
-        element: <AlumniSignup />
-      }
+        element: <AlumniSignup />,
+      },
+      {
+        path: "/chat",
+        element: <Chat />,
+      },
     ],
   },
 ]);
