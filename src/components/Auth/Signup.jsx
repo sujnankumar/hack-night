@@ -113,8 +113,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="signup max-w-4xl mx-auto p-6 border-[1px] border-[#4d4d4d] rounded-xl">
-      <h2 className="text-3xl font-bold mb-4 text-center text-white">Sign Up</h2>
+    <div className="signup text-black max-w-4xl mx-auto p-6 border-[1px] border-[#4d4d4d] rounded-xl">
+      <h2 className="text-3xl font-bold mb-4 text-center">Sign Up</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Row 1: Username & Full Name */}
@@ -225,11 +225,11 @@ const Signup = () => {
         {/* Row 4: Profile Picture & Password */}
         <div className="flex space-x-4">
           <div className="w-1/2">
-            <label className="block text-sm font-medium text-gray-400" htmlFor="profilePicture">
+            <label className="block text-white text-sm font-medium" htmlFor="profilePicture">
               Profile Picture:
             </label>
             <input
-              className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
+              className="mt-1 block w-full p-2 border text-white border-gray-900 rounded-md"
               type="file"
               id="profilePicture"
               name="profilePicture"
