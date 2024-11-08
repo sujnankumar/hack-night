@@ -32,6 +32,21 @@ const AlumniSignup = () => {
     });
   };
 
+  const handlePositionChange = (e) => {
+    setFormData({
+      ...formData,
+      position: e.target.value,
+    });
+  };
+
+  const handleCompanyChange = (e) => {
+    setFormData({
+      ...formData,
+      company: e.target.value,
+    });
+  };
+
+
   const handleSkillToggle = (skill) => {
     setFormData((prevData) => {
       const newSkills = prevData.selectedSkills.includes(skill)
@@ -66,12 +81,17 @@ const AlumniSignup = () => {
     }
 
     if (!formData.linkedin) {
-      setError('LinkedIn profile URL is required');
+      setError('LinkedIn username is required');
       return;
     }
 
-    if (!/^https?:\/\/(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+(?:\/|$)/.test(formData.linkedin)) {
-      setError('Please enter a valid LinkedIn URL');
+    if (!formData.position) {
+      setError('Position is required');
+      return;
+    }
+
+    if(!formData.company) {
+      setError('Company is required');
       return;
     }
 
@@ -89,6 +109,8 @@ const AlumniSignup = () => {
     setFormData({
       resume: null,
       linkedin: '',
+      position: '',
+      company: '',
       selectedSkills: [],
       experience: '',
       openForMentorship: 'No',
@@ -117,15 +139,60 @@ const AlumniSignup = () => {
 
         {/* LinkedIn Profile URL */}
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="linkedin">LinkedIn Profile URL:</label>
+          <label className={styles.label} htmlFor="linkedin">LinkedIn Profile Username:</label>
           <input
-            type="url"
+            type="text"
             id="linkedin"
             name="linkedin"
             value={formData.linkedin}
             onChange={handleLinkedInChange}
             required
-            placeholder="https://www.linkedin.com/in/username"
+            placeholder="username"
+            className={styles.input}
+          />
+        </div>
+
+        {/* Position */}
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="position">Position:</label>
+          <input
+            type="text"
+            id="position"
+            name="position"
+            value={formData.position}
+            onChange={handlePositionChange}
+            required
+            placeholder="CEO, CTO, etc."
+            className={styles.input}
+          />
+        </div>
+
+        {/* Company */}
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="company">Company:</label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            value={formData.company}
+            onChange={handleCompanyChange}
+            required
+            placeholder="Company Name"
+            className={styles.input}
+          />
+        </div>
+        
+        {/* Experience Input */}
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="experience">Years of Experience:</label>
+          <input
+            type="number"
+            id="experience"
+            name="experience"
+            value={formData.experience}
+            onChange={handleExperienceChange}
+            required
+            min="1"
             className={styles.input}
           />
         </div>
@@ -147,20 +214,6 @@ const AlumniSignup = () => {
           </div>
         </div>
 
-        {/* Experience Input */}
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="experience">Years of Experience:</label>
-          <input
-            type="number"
-            id="experience"
-            name="experience"
-            value={formData.experience}
-            onChange={handleExperienceChange}
-            required
-            min="1"
-            className={styles.input}
-          />
-        </div>
 
         {/* Open for Mentorship (Radio Buttons) */}
         <div className={styles.formGroup}>
