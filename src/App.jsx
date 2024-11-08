@@ -15,7 +15,8 @@ import Notifications from "./components/Notifications/Notifications";
 import Jobs from "./components/Jobs/Jobs";
 import JobFormPage from "./components/Jobs/JobFormPage";
 import Explore from "./components/Explore/Explore";
-import Connections from "./components/Connections/Connections"
+import Connections from "./components/Connections/Connections";
+import Help from "./components/Help/Help";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/connections",
         element: <Connections />,
+      },
+      {
+        path: "/help",
+        element: <Help />,
       },
     ],
   },
