@@ -1,4 +1,11 @@
+:root {
+  --purple: rgb(145, 71, 255);
+  --darkPurple: rgb(104, 31, 212);
+  --lightPurple: rgb(170, 116, 251);
+  --lightBlack: #0d0d0f;
+}
+
 body {
-    background-color: black;
-    color: rgb(229, 229, 229);
+  background-color: black;
+  color: rgb(229, 229, 229);
 }

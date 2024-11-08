@@ -61,7 +61,7 @@
 .button {
   width: 100%;
   padding: 10px;
-  background-color: rgb(145,71,255);
+  background-color: var(--purple);
   color: white;
   border: none;
   border-radius: 4px;
@@ -70,5 +70,5 @@
 }
 
 .button:hover {
-  background-color: rgb(104, 31, 212);
+  background-color: var(--darkPurple);
 }

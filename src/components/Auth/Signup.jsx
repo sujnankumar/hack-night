@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
-import styles from './Signup.module.css'; // Import the CSS Module file
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Signup.module.css"; // Import the CSS Module file
 
 // Sample options for the role select box
-const roleOptions = ['Student', 'College', 'Alumni'];
+const roleOptions = ["Student", "College", "Alumni"];
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
-    phone: '',
-    email: '',
-    role: 'User', // default role
+    username: "",
+    name: "",
+    phone: "",
+    email: "",
+    role: "User", // default role
+    collegeName: "", // new college name field
   });
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,32 +31,48 @@ const Signup = () => {
     e.preventDefault();
 
     // Simple validation
-    if (!formData.username || !formData.name || !formData.phone || !formData.email) {
-      setError('All fields are required');
+    if (
+      !formData.username ||
+      !formData.name ||
+      !formData.phone ||
+      !formData.email
+    ) {
+      setError("All fields are required");
       return;
     }
 
     if (!/^[\w.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(formData.email)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return;
     }
 
     if (!/^\d{10}$/.test(formData.phone)) {
-      setError('Please enter a valid 10-digit phone number');
+      setError("Please enter a valid 10-digit phone number");
       return;
     }
 
     // Reset error and simulate a successful form submission
-    setError('');
-    console.log('Form data submitted:', formData);
-    alert('Sign-up successful!');
+    setError("");
+    console.log("Form data submitted:", formData);
+    alert("Sign-up successful!");
+
+    // Navigate based on the role
+    if (formData.role === "Student") {
+      navigate("/signup/student");
+    } else if (formData.role === "College") {
+      navigate("/signup/college");
+    } else if (formData.role === "Alumni") {
+      navigate("/signup/alumni");
+    }
+
     // Reset form after successful submission
     setFormData({
-      username: '',
-      name: '',
-      phone: '',
-      email: '',
-      role: 'User',
+      username: "",
+      name: "",
+      phone: "",
+      email: "",
+      role: "User",
+      collegeName: "", // Reset college name as well
     });
   };
 
@@ -62,7 +82,9 @@ const Signup = () => {
       {error && <p className={styles.error}>{error}</p>}
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="username">Username:</label>
+          <label className={styles.label} htmlFor="username">
+            Username:
+          </label>
           <input
             className={styles.input}
             type="text"
@@ -75,7 +97,9 @@ const Signup = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="name">Full Name:</label>
+          <label className={styles.label} htmlFor="name">
+            Full Name:
+          </label>
           <input
             className={styles.input}
             type="text"
@@ -88,7 +112,9 @@ const Signup = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="phone">Phone Number:</label>
+          <label className={styles.label} htmlFor="phone">
+            Phone Number:
+          </label>
           <input
             className={styles.input}
             type="text"
@@ -102,7 +128,9 @@ const Signup = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="email">Email Address:</label>
+          <label className={styles.label} htmlFor="email">
+            Email Address:
+          </label>
           <input
             className={styles.input}
             type="email"
@@ -114,8 +142,26 @@ const Signup = () => {
           />
         </div>
 
+        {/* College Name input field - Always shown */}
         <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="role">Role:</label>
+          <label className={styles.label} htmlFor="collegeName">
+            College Name:
+          </label>
+          <input
+            className={styles.input}
+            type="text"
+            id="collegeName"
+            name="collegeName"
+            value={formData.collegeName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="role">
+            Role:
+          </label>
           <select
             className={styles.select}
             id="role"
@@ -132,7 +178,9 @@ const Signup = () => {
           </select>
         </div>
 
-        <button className={styles.button} type="submit">Sign Up</button>
+        <button className={styles.button} type="submit">
+          Sign Up
+        </button>
       </form>
     </div>
   );
