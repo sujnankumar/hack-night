@@ -10,6 +10,7 @@ import CollegeSignup from "./components/Auth/CollegeSignup";
 import AlumniSignup from "./components/Auth/AlumniSignup";
 import Chat from "./components/Chat/Chat";
 import Explore from "./components/Explore/Explore";
+import Connections from "./components/Connections/Connections"
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/chat",
         element: <Chat />,
+      },
+      {
+        path: "/connections",
+        element: <Connections />,
       },
     ],
   },

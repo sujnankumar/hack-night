@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  padding: 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0.75rem;
+  max-width: 17rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgb(44, 44, 44);
+}
+
+.mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  row-gap: 2rem
+}
+
+.img {
+  aspect-ratio: 1 / 1;
+  border-radius: 9999px;
+  width: 8rem;
+  height: 8rem;
+}
+
+.name {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+
+  @media (min-width: 640px) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+}
+
+.job {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.text {
+    margin-top: 0.5rem;
+margin-bottom: 0.5rem; 
+margin-top: 0.25rem; 
+}
