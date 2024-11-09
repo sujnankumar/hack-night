@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../context/auth-context";
 
 const Home = () => {
+  const context = useContext(AuthContext);
+  console.log("contextthttt:  " + context);
   return (
     <>
       <section className="text-lightWhite -translate-y-14">

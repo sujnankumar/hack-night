@@ -94,7 +94,7 @@ const router = createBrowserRouter([
         path: "/college-event",
         element: <CollegeEvent />,
       },
-  {
+      {
         path: "/help",
         element: <Help />,
       },
