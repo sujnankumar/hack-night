@@ -19,6 +19,7 @@ import CollegeEvent from "./components/College/CollegeEvent";
 import Connections from "./components/Connections/Connections";
 import Help from "./components/Help/Help";
 import AnalyticsPage from "./components/Analytics/AnalyticsPage";
+import ProfilePage from "./components/Profile/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,11 @@ const router = createBrowserRouter([
         path: "/help",
         element: <Help />,
       },
+
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      }
     ],
   },
 ]);

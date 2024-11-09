@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axiosInstance from '../../axios';
+import axiosInstance from '../../axios'; // assuming axios instance is correctly set
 
 const AlumniEventCreate = () => {
   const [eventData, setEventData] = useState({
@@ -12,6 +12,7 @@ const AlumniEventCreate = () => {
     maxParticipants: '',
   });
 
+  // Handle changes for text and number inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData((prevData) => ({
@@ -20,47 +21,103 @@ const AlumniEventCreate = () => {
     }));
   };
 
+  // Handle file input change (image)
   const handleImageChange = (e) => {
+    const file = e.target.files[0]; // Get the first selected file
     setEventData((prevData) => ({
       ...prevData,
-      image: e.target.files[0],
+      image: file,
     }));
   };
-
+  
+  // Form submit handler
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Create FormData object to handle file upload
+    e.preventDefault(); // Prevent default form submission
+  
+    // Simple validation (optional)
+    if (
+      !eventData.eventName ||
+      !eventData.description ||
+      !eventData.maxParticipants ||
+      !eventData.location ||
+      !eventData.eventDate ||
+      !eventData.eventTime
+    ) {
+      setError("All fields are required");
+      return;
+    }
+  
+    
+  
+    
+  
+    // Create FormData to send data in multipart format
     const formData = new FormData();
-    formData.append('event_name', eventData.eventName);
-    formData.append('event_date', eventData.eventDate);
-    formData.append('event_time', eventData.eventTime);
-    formData.append('event_venue', eventData.location);
-    formData.append('event_description', eventData.description);
-    // formData.append('event_image', eventData.image); // Adding the image (if any)
-    formData.append('max_participants', eventData.maxParticipants);
+  
+    // Append event details to FormData
+    // formData.append('event_name', eventData.eventName);
+    // formData.append('event_description', eventData.description);
+    // formData.append('max_participants', eventData.maxParticipants);
+    // formData.append('event_venue', eventData.location);
+    // formData.append('event_date', eventData.eventDate);
+    // formData.append('event_time', `${eventData.eventTime}:00`); // Ensure the time format is "HH:MM:00"
 
+    formData.append("json_data", JSON.stringify({
+      event_name: eventData.eventName,
+      event_description: eventData.description,
+      max_participants: eventData.maxParticipants,
+      event_venue: eventData.location,
+      event_date: eventData.eventDate,
+      event_time: `${eventData.eventTime}:00`,
+    
+    }));
+    // Check if image exists and append it to FormData
+    if (eventData.image) {
+      formData.append("event_image", eventData.image);
+    }
+  
     try {
+      // Send POST request to the backend API with FormData
       const response = await axiosInstance.post('/api/alumni/create_event', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Ensure correct content type is set
-          'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
+          'Content-Type': 'multipart/form-data', // Set the content type to handle form data
+
         },
       });
-
-      console.log(response.data); // Success message
-      // Handle success (e.g., redirect, show success message)
+  
+      // Handle success
+      console.log('Event created successfully:', response.data);
+      alert('Event created successfully!');
+      // Redirect or navigate to another page if needed, or display a success message
+  
     } catch (error) {
-      console.error(error.response.data); // Handle error (e.g., show error message)
+      // Handle error
+      console.error('Error creating event:', error.response ? error.response.data : error.message);
+      setError(error.response?.data?.message || "An error occurred while creating the event");
     }
+  
+    setError(""); // Clear any previous errors
+    console.log("Form data submitted:", eventData);
+  
+    // Reset form data after successful submission (if needed)
+    setEventData({
+      eventName: "",
+      description: "",
+      maxParticipants: "",
+      location: "",
+      eventDate: "",
+      eventTime: "",
+      image: null,
+    });
   };
-
+  
   return (
     <div className="flex justify-center items-center transparent">
       <div className="max-w-lg w-full bg-gray-950 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-purple mb-6 text-center">Create an Event</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Event Name */}
           <div>
             <label className="block text-sm font-medium text-gray-400">Event Name</label>
             <input
@@ -74,6 +131,7 @@ const AlumniEventCreate = () => {
             />
           </div>
 
+          {/* Event Date and Time */}
           <div className="flex space-x-4">
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-400">Date</label>
@@ -99,12 +157,13 @@ const AlumniEventCreate = () => {
             </div>
           </div>
 
+          {/* Max Participants */}
           <div>
             <label className="block text-sm font-medium text-gray-400">Max Participants</label>
             <input
               type="number"
               name="maxParticipants"
-              value={eventData.maxParticipants}
+              value={(eventData.maxParticipants)}
               onChange={handleChange}
               placeholder="Enter maximum participants"
               className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none text-black focus:ring focus:ring-blue-200"
@@ -112,6 +171,7 @@ const AlumniEventCreate = () => {
             />
           </div>
 
+          {/* Event Location */}
           <div>
             <label className="block text-sm font-medium text-gray-400">Location</label>
             <input
@@ -125,6 +185,7 @@ const AlumniEventCreate = () => {
             />
           </div>
 
+          {/* Event Description */}
           <div>
             <label className="block text-sm font-medium text-gray-400">Description</label>
             <textarea
@@ -138,15 +199,16 @@ const AlumniEventCreate = () => {
             />
           </div>
 
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700">Event Image (optional)</label>
+          {/* Event Image */}
+          <div>
+            <label className="block text-sm font-medium text-gray-400">Event Image (optional)</label>
             <input
               type="file"
               onChange={handleImageChange}
               className="mt-1 w-full text-sm text-gray-400"
               accept="image/*"
             />
-          </div> */}
+          </div>
 
           <button
             type="submit"

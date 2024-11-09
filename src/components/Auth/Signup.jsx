@@ -4,6 +4,11 @@ import axiosInstance from '../../axios'; // Import axios instance
 
 // Sample options for the role select box
 const roleOptions = ["student", "college", "alumni"];
+const collegeOptions = [
+  "Mangalore Institute of Technology and Engineering",
+  "Sahyadri Engineering College",
+  "Alvas Engineering College",
+];
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,9 +19,9 @@ const Signup = () => {
     phone: "",
     email: "",
     role: "student", // default role
-    collegeName: "", // new college name field
-    password: "", // new password field
-    profilePicture: null, // file for profile picture
+    collegeName: collegeOptions[0], // default to the first college in the list
+    password: "",
+    profilePicture: null,
   });
 
   const [error, setError] = useState("");
@@ -26,12 +31,12 @@ const Signup = () => {
     if (type === "file") {
       setFormData((prevData) => ({
         ...prevData,
-        profilePicture: files[0], // Handle file uploads
+        profilePicture: files[0],
       }));
     } else {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: value, // Update state for other form inputs
+        [name]: value,
       }));
     }
   };
@@ -39,26 +44,22 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation
     if (
       !formData.username ||
       !formData.name ||
       !formData.phone ||
       !formData.email ||
-      !formData.collegeName ||
       !formData.password
     ) {
       setError("All fields are required");
       return;
     }
 
-    // Validate email format
     if (!/^[\w.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(formData.email)) {
       setError("Please enter a valid email address");
       return;
     }
 
-    // Validate phone number format
     if (!/^\d{10}$/.test(formData.phone)) {
       setError("Please enter a valid 10-digit phone number");
       return;
@@ -75,16 +76,14 @@ const Signup = () => {
       college_name: formData.collegeName,
     }));
 
-    // Append the profile picture if it exists
     if (formData.profilePicture) {
       data.append("profile_picture", formData.profilePicture);
     }
 
     try {
-      // Make a request to the Flask API to register the user
       const response = await axiosInstance.post("/api/register", data, {
         headers: {
-          "Content-Type": "multipart/form-data", // Set the content type to handle form data
+          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -99,14 +98,13 @@ const Signup = () => {
     setError("");
     console.log("Form data submitted:", formData);
 
-    // Reset form after successful submission
     setFormData({
       username: "",
       name: "",
       phone: "",
       email: "",
       role: "student",
-      collegeName: "",
+      collegeName: collegeOptions[0],
       password: "",
       profilePicture: null,
     });
@@ -184,21 +182,26 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* Row 3: College Name & Role */}
+        {/* Row 3: College Name (Dropdown) & Role */}
         <div className="flex space-x-4">
           <div className="w-1/2">
             <label className="block text-sm font-medium text-gray-400" htmlFor="collegeName">
               College Name:
             </label>
-            <input
+            <select
               className="mt-1 block w-full p-2 border border-gray-900 rounded-md"
-              type="text"
               id="collegeName"
               name="collegeName"
               value={formData.collegeName}
               onChange={handleChange}
               required
-            />
+            >
+              {collegeOptions.map((college) => (
+                <option key={college} value={college}>
+                  {college}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="w-1/2">
